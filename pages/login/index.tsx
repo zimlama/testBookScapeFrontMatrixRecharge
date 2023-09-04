@@ -15,9 +15,9 @@ import axios from "axios";
 
 import { useAuthContext } from "@/context/AuthContext";
 
-const bookscapeback = process.env.BASE_URL; // Obtiene la URL base del archivo .env.local
+const bookscapeback = process.env.NEXT_PUBLIC_BOOKSCAPEBACK; // Obtiene la URL base del archivo .env.local
 const loginUrl = `${bookscapeback}/users/login`; // Construye la URL completa
-
+// `${bookscapeback}/users/login`
 
 
 const STATE_INICIAL = {
