@@ -7,19 +7,42 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useCartBdContext } from "@/context/CartBdContext";
 import { useCartContext } from "@/context/CartContext";
 
+const bookscapeback = process.env.NEXT_PUBLIC_BOOKSCAPEBACK;
+
 const CarritoDeCompra = () => {
   const { user, isAuthenticated, rutaLogin } = useAuthContext();
   const { cartItems, actualizarCantidad, eliminarProducto } = useCartContext();
-  const { cartItemsBd, actualizarCantidadBd, eliminarProductoBd } =
-    useCartBdContext();
+  const {
+    cartItemsBd,
+    actualizarCantidadBd,
+    eliminarProductoBd,
+    totalBd,
+    setTotalBd,
+    selectedItems,
+    setSelectedItems,
+  } = useCartBdContext();
 
-  const [selectedItems, setSelectedItems] = useState<{ [id: string]: boolean }>(
-    {}
-  );
   const [total, setTotal] = useState(0);
-console.log(cartItemsBd);
+  const [paymentAttempted, setPaymentAttempted] = useState(false);
 
-  if(isAuthenticated()){
+  const handlePaymentButtonClick = () => {
+    // Verifica si hay libros seleccionados
+    const selectedBooksCount = Object.values(selectedItems).filter(
+      (selected) => selected
+    ).length;
+
+    if (selectedBooksCount === 0) {
+      // Si no hay libros seleccionados, marca el intento de pago
+      setPaymentAttempted(true);
+      alert("Selecciona al menos un libro para proceder al pago");
+    } else {
+      // Si hay libros seleccionados, procede al pago
+      setPaymentAttempted(false); // Reinicia el estado de intento de pago
+      // Agrega aquí la lógica para proceder al pago
+    }
+  };
+
+  if (isAuthenticated()) {
     useEffect(() => {
       // Calcular el total solo de los elementos seleccionados
       const calculoTotal = cartItemsBd.reduce((acc, item) => {
@@ -28,7 +51,7 @@ console.log(cartItemsBd);
         }
         return acc;
       }, 0);
-      setTotal(calculoTotal);
+      setTotalBd(calculoTotal);
     }, [cartItemsBd, selectedItems]);
   } else {
     useEffect(() => {
@@ -236,39 +259,63 @@ console.log(cartItemsBd);
             <div className={styles.oculto}>
               <p>Resumen del pedido</p>
             </div>
-            <h4>Total: ${total.toFixed(2)}</h4>
             {isAuthenticated() && user ? (
               <>
-                <Link href={"/checkout"}>
-                  <button className={styles.button} type="button">
-                    Proceder al Pago
-                  </button>
-                  <br />
-                </Link>
-                {/* <Link href={"http://mpago.li/2NZfEab"}>
-                  <button
-                    data-preference-id="97116827-f207eb10-4eb8-4fc2-b6b4-2836e6ad3aa8"
-                    className={styles.button}
-                    type="button"
-                  >
-                    Proceder al Pago
-                  </button>
-                  <br />
-                </Link> */}
-                <br /> <img src={pago.src} alt="Logo" />
+                {totalBd === 0 ? (
+                  <>
+                    <p>No hay libros seleccionados</p>
+                    <button
+                      className={styles.button}
+                      type="button"
+                      onClick={handlePaymentButtonClick}
+                    >
+                      Proceder al Pago
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <h4>Total: ${totalBd.toFixed(2)}</h4>
+                    <Link href={"/checkout"}>
+                      <button className={styles.button} type="button">
+                        Proceder al Pago
+                      </button>
+                      <br />
+                    </Link>
+                    <br /> <img src={pago.src} alt="Logo" />
+                  </>
+                )}
               </>
             ) : (
-              <Link href={"/login"}>
-                <button
-                  className={styles.button}
-                  type="button"
-                  onClick={() => rutaLogin("http://mpago.li/2NZfEab")}
-                >
-                  Proceder al Pago
-                </button>
-                <br />
-                <br /> <img src={pago.src} alt="Logo" />
-              </Link>
+              <>
+                {total === 0 ? (
+                  <>
+                    <p>No hay libros seleccionados</p>
+                    <button
+                      className={styles.button}
+                      type="button"
+                      onClick={handlePaymentButtonClick}
+                    >
+                      Proceder al Pago
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <h4>Total: ${total.toFixed(2)}</h4>
+                    <Link href={"/login"}>
+                      <button
+                        className={styles.button}
+                        type="button"
+                        onClick={() => rutaLogin(`${bookscapeback}/checkout`)}
+                      >
+                        Proceder al Pago
+                      </button>
+                      <br />
+                      <br /> <img src={pago.src} alt="Logo" />
+                    </Link>
+                  </>
+                )}
+              </>
             )}
           </aside>
         </main>

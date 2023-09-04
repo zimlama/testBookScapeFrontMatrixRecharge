@@ -8,6 +8,7 @@ import React, {
 } from "react";
 
 import { useAuthContext } from "@/context/AuthContext";
+const bookscapeback = process.env.NEXT_PUBLIC_BOOKSCAPEBACK;
 
 interface CartItem {
   id_book: number;
@@ -23,6 +24,11 @@ interface CartContextType {
   agregarCarritoBd: (item: CartItem) => void;
   eliminarProductoBd: (id: number) => void;
   actualizarCantidadBd: (cart: CartItem) => void;
+  setTotalBd: React.Dispatch<React.SetStateAction<number>>;
+  totalBd: number;
+  selectedItems: { [id: string]: boolean }; // Tipo para selectedItems
+  setSelectedItems: React.Dispatch<React.SetStateAction<{ [id: string]: boolean }>>;
+  
 }
 
 const CartBdContext = createContext<CartContextType | undefined>(undefined);
@@ -41,13 +47,17 @@ export const CartBdProvider: React.FC<{ children: ReactNode }> = ({
   const { user, isAuthenticated, rutaLogin } = useAuthContext();
   const initialState: CartItem[] = [];
   const [cartItemsBd, setCartItemsBd] = useState<CartItem[]>(initialState);
+  const [totalBd, setTotalBd] = useState(0); 
+  const [selectedItems, setSelectedItems] = useState<{ [id: string]: boolean }>(
+    {}
+  );
 
   useEffect(() => {
     if (isAuthenticated() && user) {
       const fetchData = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3001/shoppingcart/books/${user.shoppingcartId.cart_id}`
+            `${bookscapeback}/shoppingcart/books/${user.shoppingcartId.cart_id}`
           );
 
           // Agregar la propiedad "cantidad" a cada elemento en el array
@@ -87,14 +97,14 @@ export const CartBdProvider: React.FC<{ children: ReactNode }> = ({
 
         setCartItemsBd(carritoActualizado);
 
-        await axios.put("http://localhost:3001/shoppingcart/add", {
+        await axios.put(`${bookscapeback}/shoppingcart/add`, {
           id_cart: user?.shoppingcartId.cart_id,
           id_book: cart.id_book,
         });
       } else {
         setCartItemsBd([...cartItemsBd, cart]);
 
-        await axios.put("http://localhost:3001/shoppingcart/add", {
+        await axios.put(`${bookscapeback}/shoppingcart/add`, {
           id_cart: user?.shoppingcartId.cart_id,
           id_book: cart.id_book,
         });
@@ -107,7 +117,7 @@ export const CartBdProvider: React.FC<{ children: ReactNode }> = ({
   const eliminarProductoBd = async (id: number): Promise<void> => {
     try {
       if (user) {
-        const response = await axios.delete("http://localhost:3001/shoppingcart/remove", {
+        const response = await axios.delete(`${bookscapeback}/shoppingcart/remove`, {
           data: {
             id_cart: user.shoppingcartId.cart_id,
             id_book: id,
@@ -141,6 +151,10 @@ export const CartBdProvider: React.FC<{ children: ReactNode }> = ({
     agregarCarritoBd,
     eliminarProductoBd,
     actualizarCantidadBd,
+    totalBd,
+    setTotalBd,
+    selectedItems,
+    setSelectedItems,
   };
 
   return (

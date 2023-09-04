@@ -7,6 +7,10 @@ import autor from "../../public/images/autor.png";
 import Pagination from "@/components/Pagination/Pagination";
 import Filtros from "@/components/Filters/Filters";
 
+type Language = {
+  language: string;
+}
+
 type Author = {
   name: string;
   // Agrega otras propiedades si es necesario
@@ -28,7 +32,7 @@ type Book = {
   image: string;
   page_count: number;
   Tags: Tags[];
-  Language: string;
+  Language: Language;
 };
 
 const normalizeString = (str: string) => {

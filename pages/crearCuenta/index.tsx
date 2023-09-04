@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "./crearcuenta.module.css";
-import { useUsuarioContext } from "@/context/UsuarioContext";
 import useValidacion from "../../hooks/useValidacion";
 import validarCrearCuenta from "../../validacion/validarCrearCuenta";
 import Link from "next/link";
@@ -40,7 +39,6 @@ const Crearcuenta = () => {
       };
 
       await axios.post(usersUrl, nuevoUsuario);
-
       router.push("/login");
     } catch (error: any) {
       console.error("Hubo un error al crear el usuario", error);
@@ -50,7 +48,9 @@ const Crearcuenta = () => {
   return (
     <>
       <div className={styles.logo1}>
-      <Link href="/"><img className={styles.logo2} src={logo2.src} alt="" /></Link>
+        <Link href="/">
+          <img className={styles.logo2} src={logo2.src} alt="" />
+        </Link>
       </div>
       <div className={styles.container}>
         <h1>Crear Cuenta</h1>
