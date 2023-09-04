@@ -104,3 +104,15 @@ img{
     width: 2rem;
 
  }
+
+ .deletebutton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px; /* Ajusta el margen según tu diseño */
+}
+
+.deletebutton img {
+  width: 17px; /* Ajusta el tamaño según tu diseño */
+  height: 17px;
+}
