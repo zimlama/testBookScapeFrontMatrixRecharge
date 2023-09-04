@@ -15,6 +15,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import { CrudBookProvider } from "@/context/CrudBookContext"
 import { PayPalScriptProvider} from "@paypal/react-paypal-js";
 
+const clientId = process.env.PAY_PAL_CLIENT_ID; // Obtiene el id del cliente base del archivo .env.local PAY_PAL_CLIENT_ID
+
 /**
  * Componente raíz de la aplicación.
  * Envuelve cada página con el componente Layout para proporcionar una estructura común.
@@ -34,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <PayPalScriptProvider
               options={{
-                "clientId" : "AWe5UPlCecv84aXS92T2MVmucXvCPY-aOqVxV08t480AgwcNItfjpS4rzTDKHJl0Gt3265G2_BNv2k8y"
+                "clientId" : `${clientId}`
               }}
     >
       <BookProvider>
