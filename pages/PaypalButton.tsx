@@ -3,6 +3,7 @@ import {PayPalButtons} from "@paypal/react-paypal-js";
 import axios from "axios";
 
 const bookscapeback = process.env.NEXT_PUBLIC_BOOKSCAPEBACK;
+
 interface PaypalButtonInterface {
     totalValue : string
     invoice : string
