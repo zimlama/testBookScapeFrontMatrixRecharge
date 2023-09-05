@@ -39,6 +39,21 @@ const Crearcuenta = () => {
       };
 
       await axios.post(usersUrl, nuevoUsuario);
+      try {
+        const signupResponse = await axios.put(
+          `${bookscapeback}/mail/signup`,
+          {
+            email: nuevoUsuario.email, 
+          }
+        );
+        // Aquí puedes manejar la respuesta de la solicitud de registro
+        console.log("Respuesta de registro:", signupResponse.data);
+        
+        // Finalmente, redirige al usuario a la página principal u otra página según tus necesidades
+        router.push("/");
+      } catch (signupError) {
+        console.error("Error al enviar el correo:", signupError);
+      }
       router.push("/login");
     } catch (error: any) {
       console.error("Hubo un error al crear el usuario", error);

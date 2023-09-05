@@ -123,8 +123,6 @@ export const CartBdProvider: React.FC<{ children: ReactNode }> = ({
             id_book: id,
           },
         });
-
-        console.log(response.data);
         
       }
     } catch (error) {

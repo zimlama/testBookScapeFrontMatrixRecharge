@@ -7,7 +7,6 @@ import Pagination from "@/components/Pagination/Pagination";
 import Filtros from "@/components/Filters/Filters";
 import BooksSlider from "@/components/BookSlider/BookSlider"
 
-
 function Home() {
   // Utiliza el hook useBookContext para obtener los datos y funciones del contexto
   const { books } = useBookContext();
@@ -48,6 +47,7 @@ function Home() {
         </div>
         <BooksSlider />
       </div>
+      
     </div>
   );
 }

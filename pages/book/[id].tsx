@@ -81,7 +81,7 @@ const DetallesBook = () => {
       {detallebook ? (
         <div className={styles.container}>
           <div className={styles.izquierda}>
-            <Link href={"/"}>Regresar</Link>
+            <Link href={"/filtrar"}>Regresar</Link>
             <div className={styles.imagen}>
               <img src={detallebook.image} alt={detallebook.title} />
               <Rating rating_ave={detallebook.rating_ave} />
@@ -131,7 +131,7 @@ const DetallesBook = () => {
                     />
                   </div>
                   <div>
-                    <Link href={`/`}>
+                    <Link href={"/filtrar"}>
                       <button className={styles.button}>Regresar</button>
                     </Link>
                   </div>

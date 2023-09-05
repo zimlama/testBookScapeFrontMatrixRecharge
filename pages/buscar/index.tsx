@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useBookContext } from "@/context/BookContext";
+import { useFilterContext } from "@/context/FilterContext";
 import CardsBooks from "@/components/CardsBooks/CardsBooks";
 import styles from "../../styles/Home.module.css";
 import autor from "../../public/images/autor.png";
 import Pagination from "@/components/Pagination/Pagination";
 import Filtros from "@/components/Filters/Filters";
+
 
 type Language = {
   language: string;
@@ -48,7 +49,7 @@ const Buscar: React.FC = () => {
   const q = typeof query.q === "string" ? normalizeString(query.q) : "";
 
   // Todos los libros
-  const { books } = useBookContext();
+  const { booksFilters, setBooksFilters } = useFilterContext();
   const itemsPerPage = 10; // Cambia esto al número de elementos por página
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -59,7 +60,7 @@ const Buscar: React.FC = () => {
   const [resultado, guardarResultado] = useState<Book[]>([]);
 
   useEffect(() => {
-    const filteredBooks = books.filter((book: Book) => {
+    const filteredBooks = booksFilters.filter((book) => {
       const normalizedTitle = normalizeString(book.title);
       const authorsMatch = book.Authors.some((author) =>
         normalizeString(author.name).includes(q)
@@ -70,12 +71,13 @@ const Buscar: React.FC = () => {
       return normalizedTitle.includes(q) || authorsMatch || tagsMatch;
     });
     guardarResultado(filteredBooks);
-  }, [q, books]);
-
+    setBooksFilters(filteredBooks)
+  }, []);
+  
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentBooks = resultado.slice(startIndex, endIndex);
-
+  
   return (
     <div className={styles.description}>
       <div className={styles.descriptionIzq}>

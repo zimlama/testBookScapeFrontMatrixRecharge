@@ -2,7 +2,7 @@ import Link from "next/link";
 import styles from "../carritoDeCompra/carrito.module.css";
 import logo from "../../public/images/carrito.png";
 import React, { useEffect, useState } from "react";
-import pago from "../../public/images/mercadopago.webp";
+import pago from "../../public/images/pay.png";
 import { useAuthContext } from "@/context/AuthContext";
 import { useCartBdContext } from "@/context/CartBdContext";
 import { useCartContext } from "@/context/CartContext";
@@ -72,7 +72,7 @@ const CarritoDeCompra = () => {
       [itemId]: !prevSelected[itemId],
     }));
   };
-
+ 
   return (
     <>
       <div>
@@ -120,7 +120,7 @@ const CarritoDeCompra = () => {
                       <div className={styles.imagen}>
                         <input
                           type="checkbox"
-                          checked={selectedItems[item.id_book]}
+                          checked={selectedItems[item.id_book] || false}
                           onChange={() => toggleSelectItem(item.id_book)}
                         />
                         <img src={item.image} alt={item.title} />
@@ -227,7 +227,7 @@ const CarritoDeCompra = () => {
                               cantidad: parseInt(e.target.value),
                             })
                           }
-                          value={item.cantidad}
+                          value={item.cantidad.toString()}
                         >
                           <option value="1">1</option>
                           <option value="2">2</option>

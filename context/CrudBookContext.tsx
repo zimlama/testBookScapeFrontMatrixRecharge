@@ -2,7 +2,6 @@ import React, { createContext, FC, useContext, useState } from "react";
 import { useBookContext } from "@/context/BookContext"; // Importa tu contexto de libros existente
 import Swal from "sweetalert2";
 import axios from "axios";
-import { Icon } from "semantic-ui-react";
 
 const bookscapeback = process.env.NEXT_PUBLIC_BOOKSCAPEBACK;
 

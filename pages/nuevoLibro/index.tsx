@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useCrudBookContext } from "@/context/CrudBookContext";
 import { useBookContext } from "@/context/BookContext";
 import { useRouter } from "next/router";
+import styles from './nuevo.module.css'
+import Link from "next/link";
+import logo from "../../public/images/BookScapeLogo.png";
 
 
 type Language = {
@@ -77,14 +80,22 @@ const NuevoLibro = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h2>Agregar Nuevo Libro</h2>
+    <div  className={styles.contenedor}>
+      <div className={styles.liner}>
+      <div className={styles.logo}>
+          <Link href="/">
+            <img src={logo.src} alt="Logo" />
+          </Link>
+        </div>
+        
       </div>
-      <form onSubmit={submitNuevoLibro}>
-        <div>
+     <div><h2>Agregar Nuevo Libro</h2></div> 
+     <div className={styles.menu}> 
+      <form onSubmit={submitNuevoLibro}>       
+        <div >
           <label>Titulo</label>
           <input
+            className={styles.input}
             type="text"
             placeholder="Titulo"
             name="title"
@@ -100,6 +111,7 @@ const NuevoLibro = () => {
         <div>
           <label>Imagen de Portada</label>
           <input
+            className={styles.input}
             type="text"
             placeholder="Portada"
             name="image"
@@ -115,6 +127,7 @@ const NuevoLibro = () => {
         <div>
           <label>Autor</label>
           <input
+            className={styles.input}
             type="text"
             placeholder="Autor"
             name="Authors"
@@ -135,6 +148,7 @@ const NuevoLibro = () => {
         <div>
           <label>Precio</label>
           <input
+            className={styles.input}
             type="number"
             placeholder="Precio"
             name="price"
@@ -150,6 +164,7 @@ const NuevoLibro = () => {
         <div>
           <label>Año de publicación</label>
           <input
+            className={styles.input}
             type="number"
             placeholder="Año de publicación"
             name="published_date"
@@ -165,7 +180,8 @@ const NuevoLibro = () => {
         <div>
           <label>Descripción</label>
           <input
-            type="text"
+            className={styles.textarea}
+            type="text-area"
             placeholder="descripción"
             name="description"
             value={nuevoLibroData.description}
@@ -180,6 +196,7 @@ const NuevoLibro = () => {
         <div>
           <label>Puntuación inicial</label>
           <input
+            className={styles.input}
             type="number"
             placeholder="Puntuación"
             name="rating_ave"
@@ -195,6 +212,7 @@ const NuevoLibro = () => {
         <div>
           <label>Categorías</label>
           <input
+            className={styles.input}
             type="text"
             placeholder="Categorías"
             name="Tags"
@@ -215,6 +233,7 @@ const NuevoLibro = () => {
         <div>
           <label>Cantidad de paginas</label>
           <input
+            className={styles.input}
             type="number"
             placeholder="Cantidad de paginas"
             name="page_count"
@@ -230,6 +249,7 @@ const NuevoLibro = () => {
         <div>
           <label>Lenguaje</label>
           <input
+            className={styles.input}
             type="text"
             placeholder="Lenguaje"
             name="Language"
@@ -245,11 +265,12 @@ const NuevoLibro = () => {
         
         {/* agregar mas campos */}
         
-        <button type="submit">Agregar Libro</button>
-      </form>
+        <button className={styles.button}  type="submit">Agregar Libro</button>
+      </form></div>
       {/* agregarle estilos al error */}
       {errorNewBook ? <p>Hubo un error al cargar el libro</p> : null}
     </div>
+    
   );
 };
 
