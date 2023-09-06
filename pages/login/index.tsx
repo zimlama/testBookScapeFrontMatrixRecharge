@@ -84,7 +84,7 @@ const Login = () => {
     }
   }
   return (
-    <GoogleOAuthProvider clientId="332589329954-m07o8o9o6j0g091mrn8famijis79ook0.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="513486295480-epuf2snihlsduj4hekp1nt36te6sdtne.apps.googleusercontent.com">
     <>
       <div className={styles.logo1}>
       <Link href="/"><img className={styles.logo2} src={logo2.src} alt="" /></Link>
